@@ -1,0 +1,9 @@
+grpcio
+grpcio-tools
+nltk
+spacy
+language-tool-python
+lexical-diversity
+kagglehub
+pandas
+pandas-stubs
