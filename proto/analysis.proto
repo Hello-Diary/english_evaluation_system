@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package analysis;
+
+service TextAnalysis {
+  rpc AnalyzeText(AnalysisRequest) returns (AnalysisResponse) {}
+}
+
+message AnalysisRequest {
+  string text = 1;
+}
+
+message AnalysisResponse {
+  GrammarScore grammar_score = 1;
+  SentenceVariety sentence_variety = 2;
+  VocabLevel vocab_level = 3;
+  VocabVariety vocab_variety = 4;
+}
+
+message GrammarScore {
+  int32 num_words = 1;
+  int32 num_errors = 2;
+  float errors_per_100 = 3;
+  map<string, int32> error_types = 4;
+}
+
+message SentenceVariety {
+  int32 total_sentences = 1;
+  int32 complex_sentences = 2;
+  float complex_sentence_ratio = 3;
+  float avg_subordinate_clauses_per_sentence = 4;
+  map<string, int32> conjunction_frequencies = 5;
+}
+
+message VocabLevel {
+  int32 a1_count = 1;
+  int32 a2_count = 2;
+  int32 b1_count = 3;
+  int32 b2_count = 4;
+  int32 c1_count = 5;
+  int32 c2_count = 6;
+  int32 unknown_count = 7;
+}
+
+message VocabVariety {
+  float mtld = 1;
+}

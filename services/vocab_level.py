@@ -1,4 +1,5 @@
 import csv
+from dataclasses import dataclass
 import pandas as pd
 import re
 
@@ -10,6 +11,17 @@ from services import tokenizer
 
 # nltk.download("punkt")        # basic tokenizer
 # nltk.download("punkt_tab")
+
+@dataclass
+class VocabLevel:
+    a1_words: list[str]
+    a2_words: list[str]
+    b1_words: list[str]
+    b2_words: list[str]
+    c1_words: list[str]
+    c2_words: list[str]
+    unknown_words: list[str]
+    error_words: list[str]
 
 def load_oxford5000(filepath: str) -> dict[str,str]:
     word_levels = {}
@@ -31,35 +43,36 @@ def load_oxford5000_pandas(filepath: str) -> dict[str,str]:
 def classify_word(word: str, word_levels: dict[str,str]) -> str:
     return word_levels.get(word,"UNKNOWN")
 
-def analyze_vocab_level(text: str, word_levels: dict[str,str]) -> dict[str,list[str]]:
+def analyze_vocab_level(text: str, word_levels: dict[str, str]) -> VocabLevel:
     tokens = tokenizer.tokenize(text)
-    a1_tokens  = []
-    b1_tokens  = []
-    c1_tokens  = []
-    unknown_tokens = []
-    error_tokens = []
+    level_buckets = {
+        "a1": [],
+        "a2": [],
+        "b1": [],
+        "b2": [],
+        "c1": [],
+        "c2": [],
+        "UNKNOWN": [],
+        "ERROR": [],
+    }
+
     for token in tokens:
         token_level = classify_word(token, word_levels)
-        match token_level:
-            case "a1":
-                a1_tokens.append(token)
-            case "b1":
-                b1_tokens.append(token)
-            case "c1":
-                c1_tokens.append(token)
-            case "UNKNOWN":
-                unknown_tokens.append(token)
-            case _:
-                error_tokens.append(token)
+        if token_level in level_buckets:
+            level_buckets[token_level].append(token)
+        else:
+            level_buckets["ERROR"].append(token)
 
-    vocab_analysis = {
-        "a1_count" : a1_tokens,
-        "b1_count" : b1_tokens,
-        "c1_count" : c1_tokens,
-        "unknown_count" : unknown_tokens,
-        "error_count" : error_tokens,
-    }
-    return vocab_analysis
+    return VocabLevel(
+        a1_words=level_buckets["a1"],
+        a2_words=level_buckets["a2"],
+        b1_words=level_buckets["b1"],
+        b2_words=level_buckets["b2"],
+        c1_words=level_buckets["c1"],
+        c2_words=level_buckets["c2"],
+        unknown_words=level_buckets["UNKNOWN"],
+        error_words=level_buckets["ERROR"],
+    )
 
 def main():
     world_levels_oxford = load_oxford5000("dataset/oxford-5k.csv")
