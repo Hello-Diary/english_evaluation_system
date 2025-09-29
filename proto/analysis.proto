@@ -11,20 +11,20 @@ message AnalysisRequest {
 }
 
 message AnalysisResponse {
-  GrammarScore grammar_score = 1;
-  SentenceVariety sentence_variety = 2;
-  VocabLevel vocab_level = 3;
-  VocabVariety vocab_variety = 4;
+  GrammarScoreResponse grammar_score = 1;
+  SentenceVarietyResponse sentence_variety = 2;
+  VocabLevelResponse vocab_level = 3;
+  VocabVarietyResponse vocab_variety = 4;
 }
 
-message GrammarScore {
+message GrammarScoreResponse {
   int32 num_words = 1;
   int32 num_errors = 2;
   float errors_per_100 = 3;
   map<string, int32> error_types = 4;
 }
 
-message SentenceVariety {
+message SentenceVarietyResponse {
   int32 total_sentences = 1;
   int32 complex_sentences = 2;
   float complex_sentence_ratio = 3;
@@ -32,7 +32,7 @@ message SentenceVariety {
   map<string, int32> conjunction_frequencies = 5;
 }
 
-message VocabLevel {
+message VocabLevelResponse {
   int32 a1_count = 1;
   int32 a2_count = 2;
   int32 b1_count = 3;
@@ -42,6 +42,6 @@ message VocabLevel {
   int32 unknown_count = 7;
 }
 
-message VocabVariety {
+message VocabVarietyResponse {
   float mtld = 1;
 }

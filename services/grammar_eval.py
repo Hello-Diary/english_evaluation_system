@@ -21,6 +21,13 @@ def compute_grammar_score(text: str)-> GrammarScore:
     matches = tool.check(text)
 
     num_words = len(text.split())
+    if num_words == 0:
+        return GrammarScore(
+            num_words=0,
+            num_errors=0,
+            errors_per_100=0.0,
+            error_types={},
+        )
     num_errors = len(matches)
     errors_per_100 = (num_errors / num_words) * 100
     error_types:    dict[str,int] = {}

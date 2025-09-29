@@ -5,7 +5,7 @@ from services import tokenizer
 
 @dataclass
 class VocabVariety:
-    mltd: float
+    mtld: float
 
 def compute_type_token_ratio(tokens: list[str]) -> float:
     unique = len(set(tokens))
@@ -24,7 +24,7 @@ Today I had a presentation in my class. I was very nervous, so I speak too fast 
     """
     test_list = tokenizer.tokenize_nltk(test_string)
     mtld = get_mtld(test_list)
-    print("Measure of Textual Lexical Diversity: ", mtld.mltd)
+    print("Measure of Textual Lexical Diversity: ", mtld.mtld)
 
 
 if __name__ == "__main__":

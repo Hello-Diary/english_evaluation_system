@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from proto import analysis_pb2 as proto_dot_analysis__pb2
+import analysis_pb2 as analysis__pb2
 
 GRPC_GENERATED_VERSION = '1.75.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in proto/analysis_pb2_grpc.py depends on'
+        + f' but the generated code in analysis_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,8 +36,8 @@ class TextAnalysisStub(object):
         """
         self.AnalyzeText = channel.unary_unary(
                 '/analysis.TextAnalysis/AnalyzeText',
-                request_serializer=proto_dot_analysis__pb2.AnalysisRequest.SerializeToString,
-                response_deserializer=proto_dot_analysis__pb2.AnalysisResponse.FromString,
+                request_serializer=analysis__pb2.AnalysisRequest.SerializeToString,
+                response_deserializer=analysis__pb2.AnalysisResponse.FromString,
                 _registered_method=True)
 
 
@@ -55,8 +55,8 @@ def add_TextAnalysisServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'AnalyzeText': grpc.unary_unary_rpc_method_handler(
                     servicer.AnalyzeText,
-                    request_deserializer=proto_dot_analysis__pb2.AnalysisRequest.FromString,
-                    response_serializer=proto_dot_analysis__pb2.AnalysisResponse.SerializeToString,
+                    request_deserializer=analysis__pb2.AnalysisRequest.FromString,
+                    response_serializer=analysis__pb2.AnalysisResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -84,8 +84,8 @@ class TextAnalysis(object):
             request,
             target,
             '/analysis.TextAnalysis/AnalyzeText',
-            proto_dot_analysis__pb2.AnalysisRequest.SerializeToString,
-            proto_dot_analysis__pb2.AnalysisResponse.FromString,
+            analysis__pb2.AnalysisRequest.SerializeToString,
+            analysis__pb2.AnalysisResponse.FromString,
             options,
             channel_credentials,
             insecure,
